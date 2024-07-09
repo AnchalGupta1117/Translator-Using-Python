@@ -8,6 +8,13 @@ root=Tk()
 root.title("Google Translator")
 root.geometry("1080x400")
 
+def label_change():
+    c=combo1.get()
+    c1=combo2.get()
+    label1.configure(text=c)
+    label2.configure(text=c1)
+    root.after(1000,label_change)
+
 #icon
 image_icon=PhotoImage(file="google.png")
 root.iconphoto(False,image_icon)
@@ -64,6 +71,10 @@ scrollbar2.pack(side="right",fill="y")
 scrollbar2.configure(command=text2.yview)
 text2.configure(yscrollcommand=scrollbar2.set)
 
+#translate button
+translate=Button(root,text="Translate",font="Roboto 15 bold italic",activebackground="purple",cursor="hand2",bd=5,bg="red",fg="white")
+translate.place(x=480,y=250)
+label_change()
 
 root.configure(bg="white")
 root.mainloop()
