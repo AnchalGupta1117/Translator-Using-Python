@@ -1,8 +1,7 @@
 from tkinter import *
 from tkinter import ttk,messagebox
 import googletrans
-import translator
-import textblob
+from googletrans import Translator
 
 
 root=Tk()
@@ -20,17 +19,23 @@ def translate_now():
     global language
     try:
         text_=text1.get(1.0,END)
-        c2=combo1.get()
-        c3=combo2.get()
-        if(text_):
-            words=textblob.TextBlob(text_)
-            lan=words.detect_language()
-            for i,j in language.items():
-                if(j==c3):
-                    lan_=i
-            words=words.translate(from_lang=lan,to=str(lan_))
-            text2.delete(1.0,END)
-            text2.insert(END,words)
+        c2=combo2.get()
+    # c3=combo2.get()
+    #     if(text_):
+    #         words=textblob.TextBlob(text_)
+    #         lan=words.detect_language()
+    #         for i,j in language.items():
+    #             if(j==c3):
+    #                 lan_=i
+    #         words=words.translate(from_lang=lan,to=str(lan_))
+    #         text2.delete(1.0,END)
+    #         text2.insert(END,words)
+    # except Exception as e:
+        if text_:
+            translator = Translator()
+            translated = translator.translate(text_, dest=c2)
+            text2.delete(1.0, END)
+            text2.insert(END, translated.text)
     except Exception as e:
         messagebox.showerror("googletrans","please try again")
 
@@ -44,11 +49,11 @@ image_label=Label(root,image=arrow_image,width=120)
 image_label.place(x=460,y=50)
 
 
-language=googletrans.LANGUAGES
-languageV=list(language.values())
-lang1=language.keys()
+# language=googletrans.LANGUAGES
+# languageV=list(language.values())
+# lang1=language.keys()
 
-combo1=ttk.Combobox(root,values=languageV,font="Roboto 14",state="r")
+combo1=ttk.Combobox(root, values=list(googletrans.LANGUAGES.values()),font="Roboto 14",state="r")
 combo1.place(x=110,y=20)
 combo1.set("ENGLISH")
 
@@ -70,7 +75,7 @@ text1.configure(yscrollcommand=scrollbar1.set)
 
 
 
-combo2=ttk.Combobox(root,values=languageV, font="RobotV 14",state="r")
+combo2=ttk.Combobox(root, values=list(googletrans.LANGUAGES.values()), font="RobotV 14",state="r")
 combo2.place(x=730,y=20)
 combo2.set("SELECT LANGUAGE")
 
